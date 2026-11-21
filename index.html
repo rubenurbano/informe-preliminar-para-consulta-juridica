@@ -1,0 +1,2553 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>INFORME PRELIMINAR PARA CONSULTA JURÍDICA - ROSCA</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              200: '#bae0fd',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Optimización para Samsung Galaxy A02s (360px - 412px viewport, HD+ 720x1600) */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #090d16;
+      color: #f1f5f9;
+      overflow-x: hidden;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    /* Barra de pestañas horizontal sin barra de scroll intrusiva */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Efecto Cristal Premium */
+    .glass-header {
+      background: rgba(9, 13, 22, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: linear-gradient(145deg, rgba(22, 31, 50, 0.85) 0%, rgba(15, 23, 42, 0.92) 100%);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    .glass-card-highlight {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.98) 100%);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      box-shadow: 0 12px 32px -12px rgba(245, 158, 11, 0.18);
+    }
+
+    /* Pestañas activas e inactivas */
+    .tab-pill {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .tab-pill.active {
+      background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+      color: #090d16;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* Botones flotantes arrastrables */
+    .draggable-btn {
+      position: fixed;
+      z-index: 90;
+      touch-action: none;
+      user-select: none;
+      cursor: grab;
+      transition: transform 0.12s ease, box-shadow 0.2s ease;
+    }
+    .draggable-btn:active {
+      cursor: grabbing;
+      transform: scale(1.08);
+    }
+
+    /* Animación suave de cambio de pestaña */
+    .tab-panel {
+      display: none;
+      animation: fadeSlideIn 0.28s ease-out forwards;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Acordeón de preguntas y respuestas */
+    .qa-answer {
+      display: none;
+    }
+    .qa-item.open .qa-answer {
+      display: block;
+      animation: fadeSlideIn 0.2s ease-out forwards;
+    }
+    .qa-item.open .qa-chevron {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-slate-950">
+
+  <!-- HEADER FIJO SUPERIOR + BARRA DE PESTAÑAS PERMANENTE -->
+  <header class="sticky top-0 z-50 glass-header">
+    <!-- Barra Superior con Botón ÍNDICE (Menú Sándwich) e Identidad -->
+    <div class="max-w-4xl mx-auto px-3 py-2.5 flex items-center justify-between gap-2">
+      <button 
+        id="openDrawerBtn"
+        onclick="toggleDrawer(true)"
+        class="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/10 border border-amber-500/40 text-amber-300 font-bold text-xs sm:text-sm tracking-wide active:scale-95 transition shadow-sm"
+        aria-label="Abrir Índice Completo">
+        <i class="fa-solid fa-bars text-base text-amber-400"></i>
+        <span>ÍNDICE</span>
+      </button>
+
+      <div class="flex items-center gap-2 truncate">
+        <span class="hidden sm:inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="text-xs sm:text-sm font-bold tracking-tight text-slate-200 truncate">
+          CONSULTA JURÍDICA · ROSCA ESPAÑA
+        </span>
+      </div>
+
+      <!-- Controles Globales Rápidos de Respuestas -->
+      <div class="flex items-center gap-1">
+        <button 
+          onclick="toggleAllQA(true)" 
+          title="Desplegar todas las respuestas"
+          class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-600/50 text-[11px] font-semibold text-emerald-300 active:scale-95 transition">
+          + Respuestas
+        </button>
+        <button 
+          onclick="toggleAllQA(false)" 
+          title="Plegar todas las respuestas"
+          class="px-2.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-600/50 text-[11px] font-semibold text-rose-300 active:scale-95 transition">
+          - Plegar
+        </button>
+      </div>
+    </div>
+
+    <!-- Barra de Pestañas Visible de Forma Permanente con Desplazamiento Táctil Horizontal y Auto-Centrado -->
+    <nav 
+      id="topTabBar" 
+      aria-label="Navegación de secciones"
+      class="w-full overflow-x-auto no-scrollbar border-t border-slate-800/80 bg-slate-950/70 px-3 py-2 flex items-center gap-2 scroll-smooth">
+      <!-- Renderizado dinámico por JS -->
+    </nav>
+  </header>
+
+  <!-- MENÚ SÁNDWICH (DRAWER VERTICAL COMPLETO DE ÍNDICE) -->
+  <div id="drawerOverlay" onclick="toggleDrawer(false)" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
+  <aside id="indexDrawer" class="fixed top-0 left-0 bottom-0 w-[86vw] max-w-sm bg-slate-900 border-r border-slate-700/70 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-2xl">
+    <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-bold">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div>
+          <h2 class="text-sm font-extrabold text-white tracking-wide uppercase">Índice del Informe</h2>
+          <p class="text-[11px] text-slate-400">Acceso directo a todas las pestañas</p>
+        </div>
+      </div>
+      <button onclick="toggleDrawer(false)" class="w-9 h-9 rounded-xl bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center active:scale-95">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Botones globales de respuestas dentro del menú -->
+    <div class="p-3 bg-slate-950/40 border-b border-slate-800/80 flex flex-col gap-2">
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 px-1">Control Global de Preguntas y Respuestas</p>
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="toggleAllQA(true); toggleDrawer(false);" class="py-2 px-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95">
+          <span>+ Desplegar todas las respuestas</span>
+        </button>
+        <button onclick="toggleAllQA(false); toggleDrawer(false);" class="py-2 px-2.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs font-bold flex items-center justify-center gap-1.5 active:scale-95">
+          <span>- Plegar todas las respuestas</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lista vertical completa de pestañas -->
+    <div id="drawerTabList" class="flex-1 overflow-y-auto p-3 space-y-1.5">
+      <!-- Poblado dinámicamente -->
+    </div>
+
+    <div class="p-3.5 border-t border-slate-800 bg-slate-950 text-center">
+      <p class="text-xs text-slate-400 font-medium">Valencia, España · 15/11/2026</p>
+    </div>
+  </aside>
+
+  <!-- CONTENEDOR PRINCIPAL DE CONTENIDO -->
+  <main id="mainContainer" class="flex-1 max-w-3xl w-full mx-auto px-3.5 sm:px-6 pt-5 pb-36">
+
+    <!-- ==========================================
+         PESTAÑA 0: INICIO
+         ========================================== -->
+    <section id="tab-0" class="tab-panel active space-y-6">
+      <!-- Hero Card Premium - SOLO en la pestaña de INICIO lleva "by Rubén Sbarsky" -->
+      <div class="glass-card-highlight rounded-3xl p-5 sm:p-8 relative overflow-hidden">
+        <div class="absolute -right-10 -top-10 w-44 h-44 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-bold mb-4">
+          <i class="fa-solid fa-gavel"></i>
+          <span>DOCUMENTO DE TRABAJO PARA REVISIÓN JURÍDICA</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-white leading-tight tracking-tight mb-3">
+          INFORME PRELIMINAR PARA CONSULTA JURÍDICA <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-300 to-yellow-200">by Rubén Sbarsky</span>
+        </h1>
+
+        <h2 class="text-base sm:text-xl font-bold text-sky-300 leading-snug mb-5">
+          VIABILIDAD LEGAL EN ESPAÑA DE UN SISTEMA COMUNITARIO DE AHORRO ROTATORIO (ROSCA)
+        </h2>
+
+        <p class="text-sm font-bold text-slate-200 mb-4">
+          Documento de trabajo para revisión jurídica
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-700/60">
+          <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+            <span class="text-[11px] uppercase tracking-wider text-slate-400 block mb-1">Ámbito territorial</span>
+            <p class="text-xs sm:text-sm font-bold text-white">Valencia, Comunidad Valenciana, España.</p>
+          </div>
+          <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+            <span class="text-[11px] uppercase tracking-wider text-slate-400 block mb-1">Fecha</span>
+            <p class="text-xs sm:text-sm font-bold text-amber-300">15 de noviembre de 2026.</p>
+          </div>
+          <div class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800">
+            <span class="text-[11px] uppercase tracking-wider text-slate-400 block mb-1">Objeto</span>
+            <p class="text-xs sm:text-sm font-semibold text-slate-200">estudiar la viabilidad de organizar un sistema privado de ahorro y financiación rotatoria entre particulares.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 1: Objeto de la Consulta -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 font-bold">
+            <i class="fa-solid fa-bullseye"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">1. OBJETO DE LA CONSULTA</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          Se solicita una opinión jurídica sobre la posibilidad de diseñar y poner en funcionamiento en Valencia un sistema privado y cerrado de ahorro comunitario inspirado en las denominadas ROSCA (Rotating Savings and Credit Associations).
+        </p>
+
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          Este mecanismo funciona mediante un grupo de personas que realizan aportaciones económicas periódicas a un fondo común. En cada periodo, el importe reunido se entrega íntegramente a uno de los participantes, siguiendo un orden previamente establecido.
+        </p>
+
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          Todos los participantes aportan durante el ciclo completo y cada uno recibe una única entrega.
+        </p>
+
+        <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 space-y-3">
+          <p class="text-sm font-bold text-amber-300">
+            El objetivo es estudiar un mecanismo de cooperación económica entre particulares que permita:
+          </p>
+          <ul class="space-y-2 text-sm text-slate-200">
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Fomentar el ahorro periódico.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Facilitar el acceso anticipado a cantidades de dinero.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Reducir la dependencia de la financiación bancaria.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Evitar intereses en el modelo inicial.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Establecer garantías jurídicas frente al incumplimiento.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <i class="fa-solid fa-circle-check text-emerald-400 mt-1 shrink-0"></i>
+              <span>Proteger económicamente a todos los participantes.</span>
+            </li>
+          </ul>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          No se pretende captar depósitos del público, desarrollar una entidad financiera ni ofrecer préstamos indiscriminadamente.
+        </p>
+
+        <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-amber-200 text-sm sm:text-base font-bold leading-relaxed">
+          Se solicita determinar cuál sería la verdadera naturaleza jurídica del sistema atendiendo a su funcionamiento efectivo, sin presuponer que la denominación ROSCA determina su calificación legal.
+        </div>
+      </div>
+
+      <!-- Navegación al final de la pestaña -->
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 1: FUNCIONAMIENTO Y EJEMPLO
+         ========================================== -->
+    <section id="tab-1" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 font-bold">
+            <i class="fa-solid fa-arrows-spin"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">2. DESCRIPCIÓN DEL FUNCIONAMIENTO</h2>
+        </div>
+
+        <!-- 2.1 Ejemplo económico -->
+        <div class="space-y-4">
+          <h3 class="text-base sm:text-lg font-bold text-amber-300">2.1. Ejemplo económico</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            Se plantea un grupo inicial de diez participantes.
+          </p>
+
+          <div class="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900/90">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-800/90 text-amber-300 text-xs uppercase tracking-wider">
+                  <th class="py-3 px-4 font-bold">Concepto</th>
+                  <th class="py-3 px-4 font-bold text-right">Cantidad</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-sm">
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Participantes</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-white">10</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Aportación individual mensual</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-emerald-300">50 €</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Fondo mensual reunido</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-sky-300">500 €</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Duración del ciclo</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-white">10 meses</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Cantidad entregada cada mes</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-amber-300">500 €</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Aportación total individual</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-white">500 €</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Entrega recibida por participante</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-emerald-300">500 €</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 text-slate-200">Intereses</td>
+                  <td class="py-2.5 px-4 text-right font-mono font-bold text-amber-400">0 €</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="text-sm sm:text-base text-slate-200">Cada mes, los diez participantes aportan 50 euros.</p>
+          <p class="text-sm sm:text-base text-slate-200">Los 500 euros reunidos se entregan a uno de los participantes.</p>
+          <p class="text-sm sm:text-base text-slate-200">Al finalizar los diez meses, todos habrán aportado 500 euros y todos habrán recibido una entrega de 500 euros.</p>
+          <p class="text-sm sm:text-base text-slate-200 font-semibold">La diferencia es el momento en que cada participante recibe el dinero.</p>
+
+          <ul class="space-y-2 bg-slate-900/80 p-4 rounded-2xl border border-slate-800 text-sm text-slate-200">
+            <li class="flex items-start gap-2.5">
+              <span class="w-6 h-6 rounded-full bg-amber-500/20 text-amber-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1º</span>
+              <span>El primero recibe 500 euros en el primer mes y continúa aportando durante los nueve meses siguientes.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-6 h-6 rounded-full bg-sky-500/20 text-sky-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">5º</span>
+              <span>El quinto recibe 500 euros a mitad del ciclo.</span>
+            </li>
+            <li class="flex items-start gap-2.5">
+              <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">10º</span>
+              <span>El décimo recibe 500 euros en el último mes, después de haber realizado todas sus aportaciones.</span>
+            </li>
+          </ul>
+
+          <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-200 text-sm font-semibold">
+            El sistema no genera dinero adicional. Redistribuye temporalmente la capacidad económica de los participantes.
+          </div>
+        </div>
+
+        <!-- 2.2 Orden de las entregas -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-bold text-amber-300">2.2. Orden de las entregas</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            Para el primer proyecto piloto se propone establecer un orden fijo, conocido y aceptado por todos antes de comenzar.
+          </p>
+          <p class="text-sm sm:text-base text-slate-200">Se consideran posibles otras modalidades:</p>
+          <ul class="list-disc list-inside space-y-1 text-sm text-slate-300 pl-2">
+            <li>Orden mediante sorteo.</li>
+            <li>Orden negociado entre los participantes.</li>
+            <li>Sistema de subasta.</li>
+          </ul>
+          <p class="text-sm sm:text-base text-slate-200">
+            Sin embargo, se considera preferible comenzar con un orden previamente establecido para reducir la complejidad.
+          </p>
+          <p class="text-sm sm:text-base font-semibold text-amber-200">
+            Ningún participante ni organizador debería poder modificar unilateralmente el orden una vez iniciado el ciclo.
+          </p>
+        </div>
+
+        <!-- 2.3 Destino del dinero -->
+        <div class="space-y-3 pt-4 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-bold text-amber-300">2.3. Destino del dinero</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            En principio, cada participante podrá utilizar libremente la cantidad recibida.
+          </p>
+          <p class="text-sm sm:text-base text-slate-200">
+            Se solicita estudiar si sería conveniente establecer alguna limitación sobre el destino de los fondos y si ello afectaría a la naturaleza jurídica del sistema.
+          </p>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 2: NATURALEZA JURÍDICA
+         ========================================== -->
+    <section id="tab-2" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300 font-bold">
+            <i class="fa-solid fa-Sitemap"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">3. CUESTIÓN JURÍDICA PRINCIPAL: NATURALEZA DEL SISTEMA</h2>
+            <p class="text-xs text-slate-400">Se solicita estudiar tres posibles estructuras jurídicas.</p>
+          </div>
+        </div>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de Preguntas Jurídicas (Sección 3)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-2', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-2', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <!-- MODELO A -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">MODELO A. SISTEMA DE AHORRO ROTATORIO O AYUDA MUTUA</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            Los participantes suscriben un acuerdo colectivo mediante el cual se comprometen a realizar aportaciones periódicas y adquieren el derecho a recibir una entrega en el turno establecido.
+          </p>
+          <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+          <div class="space-y-2.5">
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">1. ¿Qué naturaleza jurídica tendría este acuerdo?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Determinar su encaje bajo el principio de autonomía de la voluntad (art. 1255 del Código Civil) como acuerdo asociativo o de cooperación financiera privada sin ánimo de lucro.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">2. ¿Podría constituirse como contrato plurilateral atípico?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Evaluar la validez del contrato plurilateral con prestaciones convergentes hacia un fondo común y su exigibilidad directa entre los co-contratantes.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">3. ¿Sería necesario constituir una asociación?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Valorar si basta el vínculo contractual civil para un grupo de 10 personas o si una asociación inscrita aportaría personalidad jurídica útil para titularidad bancaria.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">4. ¿Qué derechos tendría quien todavía no ha recibido su turno?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Derecho de crédito exigible frente al grupo o frente a los adjudicatarios previos, así como derecho de reembolso de aportaciones en caso de frustración del ciclo.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">5. ¿Qué acciones legales podrían ejercitarse contra quien deja de aportar?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Acción de cumplimiento o resolución contractual (art. 1124 CC), reclamación de cantidad vía proceso monitorio o ejecución si media título ejecutivo.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">6. ¿Cómo se resolvería el incumplimiento de quien ya recibió su entrega?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Aplicación de cláusula de vencimiento anticipado de todas las cuotas restantes del ciclo y ejecución contra el deudor y su fiador solidario.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">7. ¿Cómo se extinguirían las obligaciones al finalizar el ciclo?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Por pago o cumplimiento íntegro (art. 1156 CC) una vez completada la décima entrega mensual y suscrita el acta o finiquito liberatorio del ciclo.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODELO B -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">MODELO B. PRÉSTAMOS ENTRE PARTICULARES</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            Cada entrega se documentaría como un préstamo concedido al participante receptor.
+          </p>
+          <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+          <div class="space-y-2.5">
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">1. ¿Quién sería jurídicamente el prestamista?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Determinar si figuran como co-prestamistas mancomunados los demás miembros del grupo que aún no han recibido o si existe mandato representativo.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">2. ¿Cada participante sería acreedor de una parte de la deuda?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Analizar el régimen de créditos mancomunados o solidarios (arts. 1137 y ss. CC) respecto a la cuota de 50 € aportada por cada miembro.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">3. ¿Podría existir un contrato común que identificase a todos los acreedores?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Viabilidad de un contrato marco firmado por los 10 miembros acompañado de anexos o recibos de entrega mensual.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">4. ¿Cómo se documentaría la pluralidad de acreedores?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Mediante cuadro de amortización cruzada o designación de un representante común legitimado para reclamar en interés del grupo.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">5. ¿Cómo se extinguiría la deuda mediante las aportaciones posteriores?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Cada aportación mensual posterior de 50 € operaría como amortización parcial del capital recibido anticipadamente.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">6. ¿Sería posible compensar obligaciones recíprocas?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Aplicación de la compensación convencional o legal (arts. 1195 y ss. CC) entre lo aportado previamente al fondo y lo recibido en el turno correspondiente.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">7. ¿Qué consecuencias fiscales tendría cada operación?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Sujeción y exención en ITP (Modelo 600 ante la ATV) de los préstamos sin interés entre particulares, evaluando la carga administrativa de presentar múltiples modelos.
+              </div>
+            </div>
+
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">8. ¿Podría esta estructura convertirse en una actividad financiera regulada?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Evaluar que la ausencia de habitualidad profesional, lucro, intereses y publicidad mantiene la operativa en la esfera civil privada.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODELO C -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">MODELO C. OTRA ESTRUCTURA JURÍDICA</h3>
+          <p class="text-sm sm:text-base text-slate-200">
+            Se solicita al abogado que proponga cualquier alternativa que resulte más segura, sencilla y económica.
+          </p>
+          <p class="text-sm sm:text-base text-slate-200">
+            No se pretende forzar el funcionamiento económico para encajarlo en una categoría jurídica inadecuada.
+          </p>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 3: RIESGO DE IMPAGO
+         ========================================== -->
+    <section id="tab-3" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 font-bold">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">4. EL PROBLEMA FUNDAMENTAL: EL INCUMPLIMIENTO</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          El principal riesgo consiste en que un participante reciba su entrega durante los primeros meses y posteriormente deje de realizar las aportaciones comprometidas.
+        </p>
+
+        <div class="bg-rose-950/30 border border-rose-500/30 rounded-2xl p-4 space-y-2">
+          <p class="text-sm font-bold text-rose-300">Ejemplo:</p>
+          <ul class="list-disc list-inside space-y-1 text-sm text-slate-200">
+            <li>Juan participa en un grupo de diez personas.</li>
+            <li>Recibe 500 euros en el primer mes.</li>
+            <li>Se compromete a continuar aportando 50 euros durante los nueve meses siguientes.</li>
+            <li>Después de recibir el dinero deja de pagar.</li>
+          </ul>
+        </div>
+
+        <p class="text-sm sm:text-base font-semibold text-amber-200">
+          Los demás participantes no deberían tener que asumir indefinidamente su deuda.
+        </p>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          Se solicita diseñar un mecanismo jurídico que determine:
+        </p>
+
+        <ol class="space-y-2.5 text-sm text-slate-200">
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">1.</span>
+            <span>Cuándo se considera producido el impago.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">2.</span>
+            <span>Cómo se realiza el requerimiento formal de pago.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">3.</span>
+            <span>Qué plazo de subsanación se concede.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">4.</span>
+            <span>Si puede producirse el vencimiento anticipado de las obligaciones pendientes.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">5.</span>
+            <span>Quién está legitimado para reclamar judicialmente.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">6.</span>
+            <span>Qué procedimiento judicial corresponde.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">7.</span>
+            <span>Qué garantías pueden exigirse.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">8.</span>
+            <span>Cómo se distribuyen las cantidades recuperadas.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">9.</span>
+            <span>Qué ocurre si el deudor carece de bienes o ingresos embargables.</span>
+          </li>
+          <li class="flex items-start gap-3 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+            <span class="font-mono font-bold text-amber-400">10.</span>
+            <span>Cómo se evita trasladar automáticamente el incumplimiento a los demás participantes.</span>
+          </li>
+        </ol>
+
+        <div class="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-sm leading-relaxed">
+          <strong>Advertencia:</strong> disponer de una deuda documentada no garantiza su recuperación efectiva. La solvencia del deudor y la existencia de garantías realizables son factores fundamentales.
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 4: GARANTÍAS Y PROTECCIÓN
+         ========================================== -->
+    <section id="tab-4" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-6">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 font-bold">
+            <i class="fa-solid fa-shield-halved"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">5. MECANISMOS DE PROTECCIÓN Y GARANTÍAS</h2>
+            <p class="text-xs text-slate-400">Se solicita estudiar los siguientes instrumentos.</p>
+          </div>
+        </div>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de Preguntas sobre Garantías (Sección 5)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-4', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-4', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <!-- 5.1 CONTRATO PRIVADO -->
+        <div class="space-y-3">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">5.1. CONTRATO PRIVADO</h3>
+          <p class="text-sm sm:text-base text-slate-200">Cada participante debería aceptar expresamente las condiciones del sistema.</p>
+          <p class="text-sm sm:text-base text-slate-200">El contrato debería contemplar:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-200">
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Identificación de las partes.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Importe de las aportaciones.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Periodicidad de los pagos.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Calendario de entregas.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Turno de recepción.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Obligaciones posteriores a la recepción.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Consecuencias del incumplimiento.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Condiciones para abandonar el grupo.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Sustitución de participantes.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Disolución del grupo.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Resolución de controversias.</div>
+            <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 flex items-center gap-2"><i class="fa-solid fa-check text-amber-400 text-xs"></i> Protección de datos personales.</div>
+          </div>
+          <p class="text-sm sm:text-base text-sky-200 font-medium">
+            Se solicita determinar si resulta preferible un contrato único firmado por todos o contratos individuales vinculados a un acuerdo general.
+          </p>
+        </div>
+
+        <!-- 5.2 ESCRITURA PÚBLICA ANTE NOTARIO -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">5.2. ESCRITURA PÚBLICA ANTE NOTARIO</h3>
+          <p class="text-sm sm:text-base text-slate-200">Se plantea documentar las obligaciones económicas mediante escritura pública.</p>
+          <p class="text-sm sm:text-base text-slate-200">El objetivo sería estudiar si puede constituir un título ejecutivo conforme al artículo 517 de la Ley de Enjuiciamiento Civil.</p>
+          <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+          <div class="space-y-2">
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">1. ¿Qué obligación concreta debería recoger la escritura?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> El reconocimiento de deuda líquida, vencida y exigible o el calendario de pagos mensuales ciertos tras la recepción del fondo.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">2. ¿Puede documentarse una obligación futura o condicionada?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Verificar los requisitos de liquidez y acreditación del cumplimiento de la condición suspensiva (la entrega efectiva de los 500 €) para despachar ejecución.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">3. ¿Cómo se determinarían las cantidades exigibles?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Mediante pacto de liquidez o descuento de las cuotas de 50 € ya transferidas justificadas bancariamente respecto del total de 500 €.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">4. ¿Sería necesaria una escritura por participante?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Comparar otorgamiento individual al recibir el turno frente a un único instrumento plurilateral inicial.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">5. ¿Podría utilizarse una escritura común?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Analizar la viabilidad arancelaria y procesal de una sola escritura o póliza intervenida suscrita por los 10 miembros.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">6. ¿Qué ventajas ofrece frente al contrato privado?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Acceso directo a la vía ejecutiva (art. 517.2.4º LEC), fehaciencia de fecha e identidad, y efecto disuasorio superior.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">7. ¿Qué costes aproximados tendría?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Valorar si el arancel notarial resulta proporcionado para un fondo mensual de 500 € sin intereses.
+              </div>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 italic bg-slate-900/70 p-3 rounded-xl border border-slate-800">
+            Se entiende que el notario no embarga ni ejecuta directamente: la ejecución corresponde a los órganos judiciales cuando legalmente proceda.
+          </p>
+        </div>
+
+        <!-- 5.3 FIADOR SOLIDARIO -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">5.3. FIADOR SOLIDARIO</h3>
+          <p class="text-sm sm:text-base text-slate-200">Se plantea que el participante que recibe una cantidad anticipadamente aporte un fiador solvente.</p>
+          <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-1 text-sm text-slate-200">
+            <p class="font-bold text-amber-300">Ejemplo:</p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Juan recibe 500 euros.</li>
+              <li>Pedro firma como fiador solidario.</li>
+              <li>Juan deja de pagar.</li>
+              <li>Se podría reclamar también a Pedro conforme a las condiciones legales de la fianza.</li>
+            </ul>
+          </div>
+          <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+          <div class="space-y-2">
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">1. ¿Es legalmente viable exigir esta garantía?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Plena validez civil de la fianza convencional (arts. 1822 y ss. del Código Civil) en obligaciones dinerarias entre particulares.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">2. ¿Cómo debe redactarse?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Debe ser expresa (art. 1827 CC), con renuncia explícita a los beneficios de excusión, división y orden.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">3. ¿Qué significa exactamente la solidaridad?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Que el acreedor puede dirigirse indistintamente o de forma simultánea contra el deudor principal (Juan) y el fiador (Pedro) sin agotar antes el patrimonio de Juan.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">4. ¿Qué requisitos de solvencia deberían exigirse?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Ingresos regulares superiores al SMI inembargable (art. 607 LEC) o bienes libres de cargas en España.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">5. ¿Qué derechos conserva el fiador?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Acción de reembolso y subrogación legal (arts. 1838 y 1839 CC) contra el deudor principal por todo lo pagado.
+              </div>
+            </div>
+            <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+              <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+                <span class="text-sm font-semibold text-white">6. ¿Qué sucede si el fiador tampoco puede pagar?</span>
+                <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+              </button>
+              <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+                <strong class="text-amber-300">Punto de análisis jurídico:</strong> Subsiste el crédito judicialmente reconocido contra ambos para ejecución sobre bienes presentes o futuros (art. 1911 CC).
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm sm:text-base text-slate-200">Se solicita estudiar si esta medida ofrece una protección real y proporcionada.</p>
+        </div>
+
+        <!-- 5.4 DEPÓSITO O GARANTÍA ECONÓMICA -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">5.4. DEPÓSITO O GARANTÍA ECONÓMICA</h3>
+          <p class="text-sm sm:text-base text-slate-200">Otra posibilidad sería exigir una cantidad depositada como garantía.</p>
+          <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-800 space-y-1 text-sm text-slate-200">
+            <p class="font-bold text-amber-300">Ejemplo:</p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>El participante recibe 500 euros.</li>
+              <li>Mantiene 100 euros como garantía.</li>
+              <li>Si incumple, esa cantidad podría aplicarse a la deuda conforme al acuerdo y a la legislación aplicable.</li>
+            </ul>
+          </div>
+          <p class="text-sm font-bold text-sky-300">Se solicita estudiar:</p>
+          <ul class="list-disc list-inside space-y-1 text-sm text-slate-200 pl-2">
+            <li>Legalidad.</li>
+            <li>Custodia del dinero.</li>
+            <li>Titularidad de la cuenta.</li>
+            <li>Condiciones para ejecutar la garantía.</li>
+            <li>Protección frente a la apropiación indebida.</li>
+            <li>Viabilidad práctica para personas con escasos ahorros.</li>
+          </ul>
+        </div>
+
+        <!-- 5.5 RECONOCIMIENTO DE DEUDA -->
+        <div class="space-y-3 pt-5 border-t border-slate-800">
+          <h3 class="text-base sm:text-lg font-extrabold text-amber-300">5.5. RECONOCIMIENTO DE DEUDA</h3>
+          <p class="text-sm sm:text-base text-slate-200">Se solicita determinar qué documento ofrece una protección más eficaz:</p>
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-200">
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Contrato privado.</li>
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Reconocimiento de deuda.</li>
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Escritura pública.</li>
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Documento con fuerza ejecutiva.</li>
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Garantía personal.</li>
+            <li class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">• Fianza solidaria.</li>
+          </ul>
+          <p class="text-sm sm:text-base text-slate-200">También se solicita aclarar qué procedimientos judiciales pueden utilizarse en cada supuesto.</p>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 5: PROTOCOLO DE IMPAGO
+         ========================================== -->
+    <section id="tab-5" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-orange-500/20 border border-orange-400/30 flex items-center justify-center text-orange-300 font-bold">
+            <i class="fa-solid fa-list-check"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">6. PROCEDIMIENTO ANTE UN IMPAGO</h2>
+            <p class="text-xs text-slate-400">Se propone estudiar el siguiente protocolo:</p>
+          </div>
+        </div>
+
+        <div class="space-y-3.5 relative before:absolute before:top-4 before:bottom-4 before:left-5 before:w-0.5 before:bg-amber-500/30">
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">1</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 1. PRIMER IMPAGO</h3>
+              <p class="text-sm text-slate-200">Comunicación formal al participante y requerimiento de pago.</p>
+            </div>
+          </div>
+
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">2</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 2. INCUMPLIMIENTO PERSISTENTE</h3>
+              <p class="text-sm text-slate-200">Aplicación de las condiciones contractuales y eventual vencimiento anticipado si está válidamente previsto.</p>
+            </div>
+          </div>
+
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">3</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 3. RECLAMACIÓN</h3>
+              <p class="text-sm text-slate-200">Inicio de la reclamación judicial mediante el procedimiento legal correspondiente.</p>
+            </div>
+          </div>
+
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">4</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 4. EJECUCIÓN</h3>
+              <p class="text-sm text-slate-200">Si existe título ejecutivo y se cumplen los requisitos, solicitud de ejecución judicial.</p>
+            </div>
+          </div>
+
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">5</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 5. EMBARGO</h3>
+              <p class="text-sm text-slate-200">Posible embargo de cuentas, bienes o ingresos legalmente embargables.</p>
+            </div>
+          </div>
+
+          <div class="relative pl-12">
+            <span class="absolute left-2 top-2 w-7 h-7 rounded-full bg-amber-500 text-slate-950 font-extrabold text-xs flex items-center justify-center shadow">6</span>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+              <h3 class="text-sm font-extrabold text-amber-300 mb-1">FASE 6. RECUPERACIÓN</h3>
+              <p class="text-sm text-slate-200">Aplicación de las cantidades recuperadas a la deuda, intereses y costas cuando legalmente correspondan.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-sm sm:text-base font-semibold text-sky-300 pt-2">
+          Se solicita verificar la validez de este protocolo y sus requisitos concretos.
+        </p>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 6: BANCO DE ESPAÑA Y REGULACIÓN
+         ========================================== -->
+    <section id="tab-6" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 font-bold">
+            <i class="fa-solid fa-building-columns"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">7. REGULACIÓN FINANCIERA Y POSIBLE INTERVENCIÓN DEL BANCO DE ESPAÑA</h2>
+        </div>
+
+        <p class="text-sm sm:text-base font-bold text-amber-300">Esta cuestión requiere especial atención.</p>
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          La intención inicial es mantener un grupo privado y cerrado de diez personas, sin publicidad de captación de fondos ni oferta pública de productos financieros.
+        </p>
+        <p class="text-sm sm:text-base text-slate-200 leading-relaxed">
+          Sin embargo, se solicita determinar si el funcionamiento descrito puede entrar en alguna actividad reservada o regulada.
+        </p>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de Preguntas Regulatorias (Sección 7)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-6', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-6', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+        <div class="space-y-2.5">
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">1. ¿Puede un grupo de diez particulares organizar este sistema sin autorización del Banco de España?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Examen de la Ley 10/2014 (LOSSEC) para confirmar que un círculo estrictamente privado de 10 particulares no constituye actividad reservada a entidades de crédito.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">2. ¿Qué elementos podrían convertirlo en captación de fondos reembolsables del público?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> La oferta abierta a personas indeterminadas ("el público"), la publicidad general y que una entidad o promotor reciba fondos en nombre propio con promesa de restitución.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">3. ¿Qué diferencia existe entre ahorro comunitario y captación de depósitos?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> En el ahorro rotatorio el fondo se adjudica íntegramente mes a mes entre los propios miembros sin que un depositario intermedie ni disponga del capital por cuenta propia.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">4. ¿Qué diferencia existe entre ayuda mutua y concesión profesional de crédito?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Ausencia de interés remuneratorio, de habitualidad empresarial y de asimetría prestamista-consumidor (Ley 16/2011 de contratos de crédito al consumo).
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">5. ¿Importa que los participantes se conozcan previamente?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Es un indicio clave de vínculo previo (*intuitu personae*) que excluye el concepto jurídico de "público" en la normativa bancaria.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">6. ¿Importa que se incorporen nuevos participantes en ciclos posteriores?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Analizar en qué umbral la apertura o captación de terceros desconocidos desvirtúa el carácter privado del grupo.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">7. ¿Importa que exista una página web o aplicación?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Una plataforma abierta de captación podría calificarse como comercialización pública o servicio de pago/financiación regulado.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">8. ¿Importa que el organizador cobre una comisión?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> El cobro de comisión introduce ánimo de lucro y actividad económica sujeta a alta censal, IVA/IRPF y mayor escrutinio regulatorio.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">9. ¿Cambiaría la calificación si se repitieran ciclos de manera habitual?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> La nota de habitualidad es determinante para calificar una actividad como profesional o empresarial frente a un pacto civil ocasional.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">10. ¿Qué actividades deben evitarse para mantenerse fuera de una actividad financiera reservada?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Publicidad general, captación de ahorros de terceros ajenos, retención de fondos en balance propio y prestación de servicios de pago sin licencia.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">11. ¿Existen obligaciones de prevención del blanqueo de capitales?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Revisión del art. 2 de la Ley 10/2010 sobre sujetos obligados y justificación de la trazabilidad bancaria de todas las transferencias de 50 €.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">12. ¿Qué autoridad sería competente para supervisar el sistema si estuviera regulado?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> El Banco de España (entidades de crédito y de pago) o la CNMV en caso de instrumentos de inversión colectiva.
+            </div>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-sm font-bold">
+          Se solicita identificar expresamente los límites legales.
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 7: CUSTODIA Y ADMINISTRACIÓN
+         ========================================== -->
+    <section id="tab-7" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300 font-bold">
+            <i class="fa-solid fa-vault"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">8. ORGANIZACIÓN Y ADMINISTRACIÓN DEL DINERO</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          Se pretende que ninguna persona pueda disponer libremente del dinero aportado por los demás.
+        </p>
+
+        <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+          <p class="text-sm font-bold text-amber-300">Se consideran estas posibilidades:</p>
+          <ul class="list-disc list-inside space-y-1 text-sm text-slate-200">
+            <li>Cuenta bancaria específica.</li>
+            <li>Cuenta a nombre de una entidad jurídicamente adecuada.</li>
+            <li>Disposición conjunta.</li>
+            <li>Transferencias directas entre participantes.</li>
+            <li>Custodia o administración por un tercero independiente.</li>
+          </ul>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-300 italic">
+          No se ha decidido constituir una entidad ni abrir una cuenta.
+        </p>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de Preguntas de Custodia (Sección 8)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-7', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-7', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <p class="text-sm font-bold text-sky-300">Preguntas:</p>
+
+        <div class="space-y-2.5">
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">1. ¿Puede un particular custodiar las aportaciones?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Riesgos civiles, fiscales y de confusión patrimonial frente a la alternativa de transferencias directas al adjudicatario mensual.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">2. ¿Qué responsabilidad asumiría el organizador?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Responsabilidad civil como mandatario/depositario (arts. 1709 y 1758 CC) e incluso penal por apropiación indebida o administración desleal si se desvían fondos.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">3. ¿Puede abrirse una cuenta bancaria específica?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Posibilidad de cuenta mancomunada con firma conjunta de varios partícipes.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">4. ¿Quién debería figurar como titular?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Cotitularidad mancomunada o bien eliminar cuenta intermedia mediante pagos directos P2P verificables al receptor de cada mes.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">5. ¿Cómo se documentaría cada movimiento?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Transferencia bancaria nominativa con concepto codificado (ej. "ROSCA Ciclo 1 - Mes X - Cuota") y carta de pago mensual.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">6. ¿Qué sucede si desaparece el organizador?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Cláusula de sustitución automática de coordinador y ausencia de fondos retenidos por el organizador.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">7. ¿Qué ocurre si el organizador fallece o queda incapacitado?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Continuidad del calendario contractual entre los miembros sin bloqueo de cuentas unipersonales por caudal hereditario.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">8. ¿Cómo se evita que los fondos se confundan con el patrimonio personal del administrador?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Punto de análisis jurídico:</strong> Prohibiendo que el administrador reciba fondos en su cuenta personal y utilizando liquidación directa entre los miembros en cada turno mensual.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 8: FISCALIDAD Y DATOS
+         ========================================== -->
+    <section id="tab-8" class="tab-panel space-y-6">
+      <!-- 9. FISCALIDAD -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 font-bold">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">9. FISCALIDAD</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          Se solicita un análisis fiscal específico para España y la Comunidad Valenciana.
+        </p>
+
+        <p class="text-sm font-bold text-amber-300">Cuestiones:</p>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-slate-200">
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Tratamiento de las aportaciones en el IRPF.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Tratamiento de las cantidades recibidas.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Posible consideración como préstamos o donaciones.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Obligación de presentar el modelo 600.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Exención tributaria de los préstamos entre particulares cuando corresponda.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Quién debe presentar la documentación.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Plazos y obligaciones formales.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Tratamiento de los intereses si existieran.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Tratamiento de las comisiones si existieran.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Consecuencias fiscales de un impago.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Tratamiento de una condonación de deuda.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Obligaciones contables y conservación de justificantes.</li>
+        </ul>
+
+        <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-200 text-sm">
+          No se presupone que todas las entregas tengan el mismo tratamiento fiscal. Dependerá de la estructura jurídica finalmente elegida.
+        </div>
+      </div>
+
+      <!-- 10. PROTECCIÓN DE DATOS Y TRANSPARENCIA -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300 font-bold">
+            <i class="fa-solid fa-user-shield"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">10. PROTECCIÓN DE DATOS Y TRANSPARENCIA</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          El sistema manejará datos personales y posiblemente información económica.
+        </p>
+
+        <p class="text-sm font-bold text-amber-300">Se solicita determinar:</p>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-slate-200">
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Qué datos pueden solicitarse.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Quién sería responsable del tratamiento.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Qué información debe facilitarse a los participantes.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Qué datos pueden compartirse con los demás miembros.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Qué información puede solicitarse a un fiador.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Cuánto tiempo deben conservarse los documentos.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Qué obligaciones establece el RGPD.</li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">• Cómo se gestionan los conflictos entre participantes.</li>
+        </ul>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 9: PILOTO Y ESCENARIOS
+         ========================================== -->
+    <section id="tab-9" class="tab-panel space-y-6">
+      <!-- 11. PROPUESTA DE PILOTO -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 font-bold">
+            <i class="fa-solid fa-flask"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">11. PROPUESTA DE PILOTO</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">Se propone estudiar el siguiente modelo inicial:</p>
+
+        <div class="overflow-hidden rounded-2xl border border-slate-700/80 bg-slate-900/90">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-800/90 text-amber-300 text-xs uppercase tracking-wider">
+                <th class="py-3 px-4 font-bold">Elemento</th>
+                <th class="py-3 px-4 font-bold text-right">Propuesta</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-sm">
+              <tr><td class="py-2.5 px-4 text-slate-200">Participantes</td><td class="py-2.5 px-4 text-right font-bold text-white">10</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Aportación mensual</td><td class="py-2.5 px-4 text-right font-bold text-emerald-300">50 €</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Fondo mensual</td><td class="py-2.5 px-4 text-right font-bold text-sky-300">500 €</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Duración</td><td class="py-2.5 px-4 text-right font-bold text-white">10 meses</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Entrega mensual</td><td class="py-2.5 px-4 text-right font-bold text-amber-300">500 €</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Entregas por participante</td><td class="py-2.5 px-4 text-right font-bold text-white">Una</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Intereses</td><td class="py-2.5 px-4 text-right font-bold text-emerald-300">Ninguno</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Comisión de organización</td><td class="py-2.5 px-4 text-right font-bold text-emerald-300">Ninguna</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Orden de entrega</td><td class="py-2.5 px-4 text-right font-bold text-white">Fijado previamente</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Incorporaciones durante el ciclo</td><td class="py-2.5 px-4 text-right font-bold text-rose-300">No previstas</td></tr>
+              <tr><td class="py-2.5 px-4 text-slate-200">Grupo</td><td class="py-2.5 px-4 text-right font-bold text-amber-300">Cerrado y privado</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">Se trata exclusivamente de un ejemplo para evaluar la viabilidad.</p>
+        <p class="text-sm sm:text-base font-bold text-amber-300">No se iniciará el sistema hasta conocer su encaje jurídico y fiscal.</p>
+      </div>
+
+      <!-- 12. ESCENARIOS QUE DEBEN ANALIZARSE -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-rose-500/20 border border-rose-400/30 flex items-center justify-center text-rose-300 font-bold">
+            <i class="fa-solid fa-diagram-project"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">12. ESCENARIOS QUE DEBEN ANALIZARSE</h2>
+            <p class="text-xs text-slate-400">Se solicita resolver los siguientes supuestos:</p>
+          </div>
+        </div>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de Escenarios y Supuestos (Sección 12)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-9', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-9', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 1.</span>
+                <span class="text-sm font-semibold text-white">Un participante recibe su entrega en el primer mes y deja de pagar desde el segundo.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Vencimiento anticipado de los 450 € pendientes, requerimiento fehaciente y reclamación judicial solidaria contra el participante y su fiador.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 2.</span>
+                <span class="text-sm font-semibold text-white">Un participante todavía no ha recibido su entrega y deja de aportar. ¿Puede ser expulsado? ¿Qué sucede con sus aportaciones anteriores?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Pérdida del derecho de turno activo, sustitución por otro miembro o ajuste del fondo, y devolución diferida de sus aportaciones netas al concluir el mes 10 (deduciendo eventuales penalizaciones pactadas).
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 3.</span>
+                <span class="text-sm font-semibold text-white">Un participante fallece después de recibir el dinero y antes de completar sus aportaciones. ¿Puede reclamarse la deuda a su herencia?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Las obligaciones dinerarias se transmiten a los herederos que acepten la herencia (arts. 659 y 661 del Código Civil), además de subsistir la responsabilidad del fiador solidario.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 4.</span>
+                <span class="text-sm font-semibold text-white">Un participante pierde el empleo y acredita que no puede seguir pagando. ¿Puede aplazarse o reestructurarse su obligación?</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Definir protocolo de novación modificativa aprobada por el grupo o cobertura temporal por el fiador sin perjudicar el cobro del adjudicatario del mes en curso.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 5.</span>
+                <span class="text-sm font-semibold text-white">Un participante quiere abandonar voluntariamente el grupo después de recibir su entrega.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Prohibición de desistimiento unilateral sin el pago íntegro anticipado del saldo restante hasta completar los 500 €.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 6.</span>
+                <span class="text-sm font-semibold text-white">Un participante quiere abandonar antes de recibir su turno, después de haber aportado varios meses.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Subrogación de posición contractual mediante cesión aprobada a un nuevo miembro solvente o reembolso al término del ciclo completo.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 7.</span>
+                <span class="text-sm font-semibold text-white">El organizador desaparece, fallece o utiliza indebidamente el dinero.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Mitigación estructural mediante transferencias directas al receptor mensual o cuenta mancomunada, y acciones penales/civiles en caso de distracción de fondos.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 8.</span>
+                <span class="text-sm font-semibold text-white">Dos o más participantes incumplen simultáneamente.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Regla de suspensión o liquidación ordenada del ciclo y ejecución individualizada contra cada deudor incumplidor y su respectivo fiador.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 9.</span>
+                <span class="text-sm font-semibold text-white">El grupo quiere repetir el ciclo una vez finalizados los diez meses.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Firma de acta de cierre y liquidación del Ciclo 1 y suscripción de un nuevo acuerdo independiente para el Ciclo 2, cuidando no incurrir en actividad financiera habitual.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs font-extrabold text-amber-400 block">ESCENARIO 10.</span>
+                <span class="text-sm font-semibold text-white">El sistema comienza a difundirse por internet y personas desconocidas solicitan incorporarse.</span>
+              </div>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Resolución jurídica solicitada:</strong> Prohibición estricta en la fase actual: abrir la captación en internet a desconocidos activaría riesgos graves de actividad reservada supervisada por el Banco de España.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 10: NORMATIVA Y FUENTES
+         ========================================== -->
+    <section id="tab-10" class="tab-panel space-y-6">
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 font-bold">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">13. NORMATIVA QUE DEBE REVISARSE</h2>
+            <p class="text-xs text-slate-400">La siguiente relación es orientativa. Se solicita comprobar la normativa vigente y su aplicación concreta.</p>
+          </div>
+        </div>
+
+        <ol class="space-y-2.5 text-sm text-slate-200">
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">1.</span>
+            <span>Código Civil español: obligaciones, contratos, préstamo, fianza, compensación e incumplimiento contractual.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">2.</span>
+            <span>Ley 1/2000, de 7 de enero, de Enjuiciamiento Civil: títulos ejecutivos, procedimiento monitorio y embargo.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">3.</span>
+            <span>Real Decreto Legislativo 1/1993, de 24 de septiembre: Impuesto sobre Transmisiones Patrimoniales y Actos Jurídicos Documentados.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">4.</span>
+            <span>Normativa tributaria de la Generalitat Valenciana relativa al modelo 600.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">5.</span>
+            <span>Ley 10/2014, de 26 de junio, de ordenación, supervisión y solvencia de entidades de crédito.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">6.</span>
+            <span>Ley 10/2010, de 28 de abril, de prevención del blanqueo de capitales y de la financiación del terrorismo.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">7.</span>
+            <span>Reglamento UE 2016/679 (RGPD).</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">8.</span>
+            <span>Ley Orgánica 3/2018, de protección de datos personales y garantía de los derechos digitales.</span>
+          </li>
+          <li class="bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 flex items-start gap-3">
+            <span class="font-mono font-bold text-amber-400">9.</span>
+            <span>Cualquier otra normativa civil, financiera, fiscal, asociativa o de consumo que resulte aplicable.</span>
+          </li>
+        </ol>
+
+        <!-- Fuentes institucionales con botón obligatorio "Abrir en otra Ventana" en TODOS los enlaces URL -->
+        <div class="pt-4 border-t border-slate-800 space-y-3">
+          <h3 class="text-base font-extrabold text-amber-300">Fuentes institucionales:</h3>
+
+          <div class="grid grid-cols-1 gap-3">
+            <!-- BOE -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">BOE</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://www.boe.es/</p>
+              </div>
+              <a href="https://www.boe.es/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://www.boe.es/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Banco de España -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">Banco de España</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://www.bde.es/</p>
+              </div>
+              <a href="https://www.bde.es/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://www.bde.es/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Consejo General del Notariado -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">Consejo General del Notariado</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://www.notariado.org/</p>
+              </div>
+              <a href="https://www.notariado.org/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://www.notariado.org/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Agencia Tributaria -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">Agencia Tributaria</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://sede.agenciatributaria.gob.es/</p>
+              </div>
+              <a href="https://sede.agenciatributaria.gob.es/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://sede.agenciatributaria.gob.es/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Agencia Tributaria Valenciana -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">Agencia Tributaria Valenciana</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://atv.gva.es/</p>
+              </div>
+              <a href="https://atv.gva.es/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://atv.gva.es/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+
+            <!-- Agencia Española de Protección de Datos -->
+            <div class="bg-slate-900/95 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-bold text-white">Agencia Española de Protección de Datos</p>
+                <p class="text-xs font-mono text-sky-400 break-all">https://www.aepd.es/</p>
+              </div>
+              <a href="https://www.aepd.es/" target="_blank" rel="noopener noreferrer" onclick="window.open('https://www.aepd.es/', '_blank', 'noopener,noreferrer'); return false;" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-md active:scale-95 transition shrink-0">
+                <span>Abrir en otra Ventana</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 11: CUESTIONARIO AL ABOGADO
+         ========================================== -->
+    <section id="tab-11" class="tab-panel space-y-6">
+      <!-- 14. PREGUNTAS CONCRETAS PARA EL ABOGADO -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/30 flex items-center justify-center text-amber-300 font-bold">
+            <i class="fa-solid fa-clipboard-question"></i>
+          </span>
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">14. PREGUNTAS CONCRETAS PARA EL ABOGADO</h2>
+            <p class="text-xs text-slate-400">Se solicita que el dictamen responda expresamente:</p>
+          </div>
+        </div>
+
+        <!-- Botones obligatorios de sección de Preguntas y Respuestas -->
+        <div class="bg-slate-900/90 p-3.5 rounded-2xl border border-slate-700/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-question"></i> Control de las 18 Preguntas para el Dictamen (Sección 14)
+          </span>
+          <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+            <button onclick="toggleSectionQA('tab-11', true)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold transition">
+              + Desplegar todas las respuestas
+            </button>
+            <button onclick="toggleSectionQA('tab-11', false)" class="flex-1 sm:flex-initial py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+              - Plegar todas las respuestas
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2.5">
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">1. ¿Es legal organizar este sistema entre diez particulares?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Pronunciamiento expreso sobre la licitud civil (art. 1255 CC) bajo grupo cerrado de 10 personas sin interés ni publicidad.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">2. ¿Cuál es la estructura jurídica más adecuada?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Elección motivada entre contrato plurilateral atípico con reconocimiento de deuda al cobro, préstamos cruzados u otra figura civil.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">3. ¿Se considera una ROSCA, un contrato plurilateral, una asociación, una serie de préstamos u otra figura?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Calificación jurídica real en Derecho español atendiendo a su causa y funcionamiento efectivo.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">4. ¿Existe riesgo de captación de fondos del público?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Delimitación frente a la reserva de actividad de la Ley 10/2014 (LOSSEC).
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">5. ¿Qué condiciones permitirían mantener el sistema dentro del ámbito privado?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Lista de salvaguardas (grupo cerrado, vínculo previo, ausencia de oferta pública y cero comisiones/intereses).
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">6. ¿Cómo debe documentarse la obligación de cada participante?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Estructura documental de acuerdo marco inicial más acta/recibo de entrega y reconocimiento de saldo pendiente.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">7. ¿Qué documento ofrece mayor protección frente al impago?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Comparativa de eficacia ejecutiva y monitoria entre documento público y documento privado con fianza solidaria.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">8. ¿Es recomendable una escritura pública?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Análisis coste-beneficio para cuantías de 500 € frente al proceso monitorio.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">9. ¿Puede exigirse un fiador solidario?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Requisitos formales de la cláusula de afianzamiento solidario con renuncia a excusión.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">10. ¿Cómo debe organizarse la titularidad y custodia de los fondos?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Recomendación operativa para evitar custodia unipersonal (ej. transferencias directas al receptor del turno).
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">11. ¿Qué obligaciones fiscales tiene cada participante?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Detalle de IRPF e ITP (Modelo 600 en Comunidad Valenciana) para cada partícipe.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">12. ¿Qué obligaciones tendría el organizador?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Deberes de gestión documental, conservación de justificantes e información transparente al grupo.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">13. ¿Qué trámites, declaraciones o autorizaciones serían necesarios?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Trámites ante la Agencia Tributaria Valenciana (ATV) u otros registros si procediera.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">14. ¿Qué responsabilidad personal asumiría el organizador?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Delimitación y exoneración de responsabilidad por insolvencia de terceros miembros.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">15. ¿Qué cláusulas contractuales son imprescindibles?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Vencimiento anticipado, solidaridad del fiador, sumisión a tribunales de Valencia y trazabilidad bancaria.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">16. ¿Qué cambios recomienda para reducir riesgos y costes?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Propuestas de optimización operativa, documental y fiscal.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">17. ¿Considera viable el piloto de diez personas y 50 euros mensuales?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Valoración final de viabilidad práctica del proyecto piloto en Valencia.
+            </div>
+          </div>
+
+          <div class="qa-item rounded-2xl bg-slate-900/90 border border-slate-800 overflow-hidden">
+            <button onclick="toggleSingleQA(this)" class="w-full p-3.5 text-left flex items-center justify-between gap-3">
+              <span class="text-sm font-semibold text-white">18. ¿Qué circunstancias podrían convertirlo en una actividad financiera regulada?</span>
+              <i class="fa-solid fa-chevron-down qa-chevron text-amber-400 text-xs transition-transform"></i>
+            </button>
+            <div class="qa-answer px-4 pb-3.5 pt-1 text-xs sm:text-sm text-slate-300 border-t border-slate-800/80 bg-slate-950/50">
+              <strong class="text-amber-300">Directriz de respuesta para el Dictamen:</strong> Líneas rojas regulatorias que jamás deben cruzarse sin autorización administrativa.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. PRINCIPIOS DEL PROYECTO -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center text-emerald-300 font-bold">
+            <i class="fa-solid fa-compass"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">15. PRINCIPIOS DEL PROYECTO</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">El proyecto se basa en los siguientes principios:</p>
+
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-sm text-slate-200">
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Participación voluntaria e informada.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Grupo cerrado en la fase inicial.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Número limitado de participantes.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Aportaciones y entregas transparentes.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Movimientos económicos trazables.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Ausencia de intereses en el modelo inicial.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Ausencia de comisiones de organización en el modelo inicial.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Reglas conocidas y aceptadas antes de comenzar.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Protección de todos los participantes.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>Mecanismos jurídicos de reclamación ante incumplimientos.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>No captar depósitos del público.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>No ofrecer financiación indiscriminadamente.</span></li>
+          <li class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 flex items-start gap-2 sm:col-span-2"><i class="fa-solid fa-check-double text-emerald-400 mt-1"></i><span>No iniciar el proyecto sin conocer previamente su encaje jurídico y fiscal.</span></li>
+        </ul>
+
+        <div class="p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-sm font-bold leading-relaxed">
+          No se pretende eludir la regulación financiera ni utilizar una denominación contractual para ocultar una actividad que, por su funcionamiento real, estuviera regulada.
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          Si el modelo requiere autorización, registro, intervención de una entidad habilitada o una estructura jurídica diferente, se solicita que se indique expresamente.
+        </p>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 12: RESULTADO Y DICTAMEN
+         ========================================== -->
+    <section id="tab-12" class="tab-panel space-y-6">
+      <!-- 16. RESULTADO PROFESIONAL SOLICITADO -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center gap-3 border-b border-slate-800 pb-3">
+          <span class="w-10 h-10 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 font-bold">
+            <i class="fa-solid fa-award"></i>
+          </span>
+          <h2 class="text-lg sm:text-xl font-extrabold text-white">16. RESULTADO PROFESIONAL SOLICITADO</h2>
+        </div>
+
+        <p class="text-sm sm:text-base text-slate-200">
+          El objetivo de esta consulta no es obtener una aprobación genérica, sino una evaluación jurídica práctica.
+        </p>
+
+        <p class="text-sm font-bold text-amber-300">Se solicita:</p>
+
+        <div class="space-y-2.5 text-sm text-slate-200">
+          <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-800 space-y-2">
+            <p class="font-bold text-white">1. Conclusión de viabilidad:</p>
+            <ul class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1">
+              <li class="p-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-center font-bold text-xs">Viable.</li>
+              <li class="p-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 text-center font-bold text-xs">Viable con condiciones.</li>
+              <li class="p-2 rounded-xl bg-orange-500/15 border border-orange-500/30 text-orange-300 text-center font-bold text-xs">No recomendable.</li>
+              <li class="p-2 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-300 text-center font-bold text-xs">No viable.</li>
+            </ul>
+          </div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">2. Identificación de los principales riesgos jurídicos.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">3. Estructura jurídica recomendada.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">4. Modelo de contrato o documentación necesaria.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">5. Procedimiento de actuación frente al impago.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">6. Garantías recomendadas.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">7. Obligaciones fiscales y administrativas.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">8. Costes aproximados de puesta en marcha.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">9. Límites legales que no deberían sobrepasarse.</div>
+          <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800">10. Recomendación final sobre la conveniencia de realizar un proyecto piloto.</div>
+        </div>
+      </div>
+
+      <!-- 17. ESPACIO PARA EL DICTAMEN DEL ABOGADO -->
+      <div class="glass-card-highlight rounded-3xl p-5 sm:p-7 space-y-4">
+        <div class="flex items-center justify-between gap-3 border-b border-slate-700/80 pb-3">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 font-bold">
+              <i class="fa-solid fa-pen-nib"></i>
+            </span>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white">17. ESPACIO PARA EL DICTAMEN DEL ABOGADO</h2>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Estructura jurídica recomendada:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Normativa aplicable:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Riesgos regulatorios:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Documentación contractual necesaria:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Mecanismo de garantía y reclamación por impago:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Obligaciones fiscales y administrativas:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Coste estimado de puesta en marcha:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-sm font-bold text-amber-300 block">Conclusión profesional:</label>
+            <textarea rows="2" class="w-full rounded-2xl bg-slate-950/90 border border-slate-700 p-3 text-sm text-white focus:border-amber-400 focus:outline-none" placeholder="[Completar]">[Completar]</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTA FINAL -->
+      <div class="glass-card rounded-3xl p-5 sm:p-7 space-y-3 border-l-4 border-l-amber-500">
+        <h3 class="text-base sm:text-lg font-extrabold text-amber-300">NOTA FINAL</h3>
+        <p class="text-sm sm:text-base text-slate-200">
+          Este documento es una propuesta preliminar para consulta profesional.
+        </p>
+        <p class="text-sm sm:text-base text-slate-200">
+          No constituye un dictamen jurídico, asesoramiento legal ni contrato. No debe utilizarse como autorización para iniciar el sistema ni para recibir o entregar fondos.
+        </p>
+        <p class="text-sm sm:text-base text-slate-200 font-semibold">
+          La estructura definitiva deberá ser revisada por un abogado y, cuando corresponda, por un asesor fiscal antes de su puesta en marcha.
+        </p>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+    <!-- ==========================================
+         PESTAÑA 13: CRÉDITOS (ÚLTIMA PESTAÑA OBLIGATORIA)
+         ========================================== -->
+    <section id="tab-13" class="tab-panel space-y-6">
+      <div class="glass-card-highlight rounded-3xl p-6 sm:p-10 text-center space-y-6 relative overflow-hidden">
+        <div class="w-20 h-20 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-600 mx-auto flex items-center justify-center text-slate-950 text-3xl font-extrabold shadow-xl">
+          <i class="fa-solid fa-signature"></i>
+        </div>
+
+        <div class="space-y-2">
+          <span class="px-3.5 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold uppercase tracking-widest">
+            Registro de Autoría y Edición Digital
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white pt-2">
+            CRÉDITOS: Rubén Sbarsky, Fecha 📆: 15/11/2026, Hora 🕰: 12:50:51
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5 max-w-xl mx-auto pt-2">
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+            <span class="text-xs text-slate-400 block mb-1">Autoría</span>
+            <p class="text-base font-extrabold text-amber-300">Rubén Sbarsky</p>
+          </div>
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+            <span class="text-xs text-slate-400 block mb-1">Fecha 📆</span>
+            <p class="text-base font-mono font-extrabold text-white">15/11/2026</p>
+          </div>
+          <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
+            <span class="text-xs text-slate-400 block mb-1">Hora 🕰</span>
+            <p class="text-base font-mono font-extrabold text-emerald-300">12:50:51</p>
+          </div>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto">
+          Informe Preliminar para Consulta Jurídica · Viabilidad Legal en España de un Sistema Comunitario de Ahorro Rotatorio (ROSCA) · Valencia, España.
+        </p>
+      </div>
+
+      <div class="tab-footer-nav pt-2"></div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================
+       BOTONES FLOTANTES MÓVILES ARRASTRABLES (DRAGGABLE)
+       1. Botón flotante a INICIO
+       2. Botón flotante ARRIBA (al comienzo de la pestaña actual)
+       ========================================== -->
+  <button
+    id="floatingInicioBtn"
+    title="Arrastrar o tocar para ir a INICIO"
+    style="right: 14px; bottom: 132px;"
+    class="draggable-btn flex items-center gap-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-extrabold text-xs shadow-2xl border border-amber-300/60">
+    <i class="fa-solid fa-house text-sm"></i>
+    <span>INICIO</span>
+  </button>
+
+  <button
+    id="floatingArribaBtn"
+    title="Arrastrar o tocar para ir al comienzo de la pestaña actual"
+    style="right: 14px; bottom: 76px;"
+    class="draggable-btn flex items-center gap-2 px-4 py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 text-white font-extrabold text-xs shadow-2xl border border-sky-300/50">
+    <i class="fa-solid fa-arrow-up text-sm"></i>
+    <span>ARRIBA</span>
+  </button>
+
+  <!-- JAVASCRIPT: NAVEGACIÓN DE PESTAÑAS, AUTO-CENTRADO, ACORDEONES Y BOTONES FLOTANTES ARRASTRABLES -->
+  <script>
+    // Definición de todas las pestañas con nombres semánticos relacionados con el contenido (sin "Cap. 01" ni "Módulo 01")
+    const TABS = [
+      { id: 0, name: "INICIO", icon: "fa-house" },
+      { id: 1, name: "Funcionamiento y Ejemplo", icon: "fa-arrows-spin" },
+      { id: 2, name: "Naturaleza Jurídica", icon: "fa-scale-balanced" },
+      { id: 3, name: "Riesgo de Impago", icon: "fa-triangle-exclamation" },
+      { id: 4, name: "Garantías y Protección", icon: "fa-shield-halved" },
+      { id: 5, name: "Protocolo de Impago", icon: "fa-list-check" },
+      { id: 6, name: "Banco de España y Regulación", icon: "fa-building-columns" },
+      { id: 7, name: "Custodia y Administración", icon: "fa-vault" },
+      { id: 8, name: "Fiscalidad y Datos", icon: "fa-file-invoice-dollar" },
+      { id: 9, name: "Piloto y Escenarios", icon: "fa-flask" },
+      { id: 10, name: "Normativa y Fuentes", icon: "fa-book-bookmark" },
+      { id: 11, name: "Cuestionario al Abogado", icon: "fa-clipboard-question" },
+      { id: 12, name: "Resultado y Dictamen", icon: "fa-pen-nib" },
+      { id: 13, name: "CRÉDITOS", icon: "fa-signature" }
+    ];
+
+    let currentTabIndex = 0;
+
+    // Inicializar barras de navegación y botones inferiores de cada pestaña
+    function initNavigation() {
+      const topTabBar = document.getElementById('topTabBar');
+      const drawerTabList = document.getElementById('drawerTabList');
+
+      topTabBar.innerHTML = '';
+      drawerTabList.innerHTML = '';
+
+      TABS.forEach((tab, idx) => {
+        // 1. Botón en barra horizontal superior permanente
+        const pill = document.createElement('button');
+        pill.id = `top-pill-${idx}`;
+        pill.className = `tab-pill px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border ${
+          idx === currentTabIndex
+            ? 'active border-amber-300'
+            : 'bg-slate-900/90 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+        }`;
+        pill.innerHTML = `<i class="fa-solid ${tab.icon} text-[11px]"></i><span>${tab.name}</span>`;
+        pill.onclick = () => selectTab(idx);
+        topTabBar.appendChild(pill);
+
+        // 2. Elemento en el ÍNDICE (menú sándwich vertical)
+        const drawerItem = document.createElement('button');
+        drawerItem.id = `drawer-item-${idx}`;
+        drawerItem.className = `w-full text-left px-3.5 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition ${
+          idx === currentTabIndex
+            ? 'bg-amber-500 text-slate-950 shadow-md'
+            : 'bg-slate-950/50 text-slate-200 hover:bg-slate-800 border border-slate-800/70'
+        }`;
+        drawerItem.innerHTML = `
+          <div class="flex items-center gap-3 truncate">
+            <i class="fa-solid ${tab.icon} w-4 text-center"></i>
+            <span class="truncate">${tab.name}</span>
+          </div>
+          <i class="fa-solid fa-chevron-right text-[10px] opacity-75"></i>
+        `;
+        drawerItem.onclick = () => {
+          selectTab(idx);
+          toggleDrawer(false);
+        };
+        drawerTabList.appendChild(drawerItem);
+      });
+
+      renderFooterNavButtons();
+    }
+
+    // Renderizar al final de cada pestaña los botones fijos/claros para ir a la pestaña anterior (si la hay) y a la próxima pestaña
+    function renderFooterNavButtons() {
+      TABS.forEach((tab, idx) => {
+        const section = document.getElementById(`tab-${idx}`);
+        if (!section) return;
+        const footerContainer = section.querySelector('.tab-footer-nav');
+        if (!footerContainer) return;
+
+        const prevTab = idx > 0 ? TABS[idx - 1] : null;
+        const nextTab = idx < TABS.length - 1 ? TABS[idx + 1] : null;
+
+        footerContainer.innerHTML = `
+          <div class="glass-card rounded-2xl p-3.5 sm:p-4 border border-slate-700/80 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 shadow-xl">
+            ${
+              prevTab
+                ? `<button onclick="selectTab(${idx - 1})" class="flex-1 py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600/60 text-slate-100 text-xs sm:text-sm font-bold flex items-center justify-center sm:justify-start gap-2.5 active:scale-95 transition">
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                    <div class="text-left truncate">
+                      <span class="block text-[10px] uppercase tracking-wider text-slate-400">Pestaña Anterior</span>
+                      <span class="truncate block">${prevTab.name}</span>
+                    </div>
+                  </button>`
+                : `<div class="hidden sm:block flex-1"></div>`
+            }
+            ${
+              nextTab
+                ? `<button onclick="selectTab(${idx + 1})" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 text-xs sm:text-sm font-extrabold flex items-center justify-center sm:justify-end gap-2.5 shadow-lg active:scale-95 transition">
+                    <div class="text-right truncate">
+                      <span class="block text-[10px] uppercase tracking-wider text-slate-900/80 font-bold">Próxima Pestaña</span>
+                      <span class="truncate block">${nextTab.name}</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>`
+                : `<button onclick="selectTab(0)" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    <span>Volver a la Pestaña INICIO</span>
+                  </button>`
+            }
+          </div>
+        `;
+      });
+    }
+
+    // Cambiar de pestaña con auto-centrado horizontal y desplazamiento al comienzo de la pestaña
+    function selectTab(index) {
+      if (index < 0 || index >= TABS.length) return;
+      currentTabIndex = index;
+
+      // Mostrar panel activo
+      document.querySelectorAll('.tab-panel').forEach((panel, idx) => {
+        if (idx === index) {
+          panel.classList.add('active');
+        } else {
+          panel.classList.remove('active');
+        }
+      });
+
+      // Actualizar estado visual en barra superior y menú sándwich
+      TABS.forEach((_, idx) => {
+        const pill = document.getElementById(`top-pill-${idx}`);
+        const drawerItem = document.getElementById(`drawer-item-${idx}`);
+
+        if (pill) {
+          pill.className = `tab-pill px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-2 border ${
+            idx === index
+              ? 'active border-amber-300'
+              : 'bg-slate-900/90 text-slate-300 border-slate-800 hover:bg-slate-800 hover:text-white'
+          }`;
+        }
+
+        if (drawerItem) {
+          drawerItem.className = `w-full text-left px-3.5 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-between transition ${
+            idx === index
+              ? 'bg-amber-500 text-slate-950 shadow-md'
+              : 'bg-slate-950/50 text-slate-200 hover:bg-slate-800 border border-slate-800/70'
+          }`;
+        }
+      });
+
+      // Auto-centrado horizontal de la pestaña activa en la barra superior
+      centerActiveTabPill(index);
+
+      // Llevar al comienzo de la pestaña actual
+      scrollToCurrentTabTop();
+    }
+
+    function centerActiveTabPill(index) {
+      const topTabBar = document.getElementById('topTabBar');
+      const activePill = document.getElementById(`top-pill-${index}`);
+      if (!topTabBar || !activePill) return;
+
+      const barRect = topTabBar.getBoundingClientRect();
+      const pillRect = activePill.getBoundingClientRect();
+      const offset = (pillRect.left - barRect.left) - (barRect.width / 2) + (pillRect.width / 2);
+
+      topTabBar.scrollBy({
+        left: offset,
+        behavior: 'smooth'
+      });
+    }
+
+    // Ir siempre al comienzo de la pestaña actual
+    function scrollToCurrentTabTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    }
+
+    // Abrir / Cerrar ÍNDICE (Menú Sándwich)
+    function toggleDrawer(open) {
+      const drawer = document.getElementById('indexDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      if (open) {
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+        drawer.classList.remove('-translate-x-full');
+      } else {
+        overlay.classList.add('opacity-0');
+        drawer.classList.add('-translate-x-full');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+
+    // Funciones de Preguntas y Respuestas
+    function toggleSingleQA(buttonEl) {
+      const item = buttonEl.closest('.qa-item');
+      if (item) {
+        item.classList.toggle('open');
+      }
+    }
+
+    function toggleSectionQA(sectionId, expand) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      section.querySelectorAll('.qa-item').forEach(item => {
+        if (expand) {
+          item.classList.add('open');
+        } else {
+          item.classList.remove('open');
+        }
+      });
+    }
+
+    function toggleAllQA(expand) {
+      document.querySelectorAll('.qa-item').forEach(item => {
+        if (expand) {
+          item.classList.add('open');
+        } else {
+          item.classList.remove('open');
+        }
+      });
+    }
+
+    // Hacer que un botón flotante sea móvil / arrastrable (Touch + Mouse) y ejecute su acción al hacer clic/tap
+    function makeDraggableButton(buttonEl, onClickCallback) {
+      let isDragging = false;
+      let hasMoved = false;
+      let startX = 0;
+      let startY = 0;
+      let initialLeft = 0;
+      let initialTop = 0;
+
+      function onPointerDown(e) {
+        isDragging = true;
+        hasMoved = false;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        startX = clientX;
+        startY = clientY;
+
+        const rect = buttonEl.getBoundingClientRect();
+        initialLeft = rect.left;
+        initialTop = rect.top;
+
+        buttonEl.style.right = 'auto';
+        buttonEl.style.bottom = 'auto';
+        buttonEl.style.left = `${initialLeft}px`;
+        buttonEl.style.top = `${initialTop}px`;
+      }
+
+      function onPointerMove(e) {
+        if (!isDragging) return;
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+          hasMoved = true;
+        }
+
+        if (hasMoved) {
+          if (e.cancelable) e.preventDefault();
+          const btnWidth = buttonEl.offsetWidth;
+          const btnHeight = buttonEl.offsetHeight;
+          const maxX = window.innerWidth - btnWidth - 6;
+          const maxY = window.innerHeight - btnHeight - 6;
+
+          const newLeft = Math.max(6, Math.min(maxX, initialLeft + dx));
+          const newTop = Math.max(6, Math.min(maxY, initialTop + dy));
+
+          buttonEl.style.left = `${newLeft}px`;
+          buttonEl.style.top = `${newTop}px`;
+        }
+      }
+
+      function onPointerUp(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        if (!hasMoved) {
+          onClickCallback();
+        }
+      }
+
+      buttonEl.addEventListener('touchstart', onPointerDown, { passive: true });
+      window.addEventListener('touchmove', onPointerMove, { passive: false });
+      window.addEventListener('touchend', onPointerUp);
+
+      buttonEl.addEventListener('mousedown', onPointerDown);
+      window.addEventListener('mousemove', onPointerMove);
+      window.addEventListener('mouseup', onPointerUp);
+    }
+
+    // Inicialización al cargar el documento
+    window.addEventListener('DOMContentLoaded', () => {
+      initNavigation();
+
+      // Configurar botón flotante arrastrable INICIO
+      const inicioBtn = document.getElementById('floatingInicioBtn');
+      makeDraggableButton(inicioBtn, () => {
+        selectTab(0);
+      });
+
+      // Configurar botón flotante arrastrable ARRIBA
+      const arribaBtn = document.getElementById('floatingArribaBtn');
+      makeDraggableButton(arribaBtn, () => {
+        scrollToCurrentTabTop();
+      });
+    });
+  </script>
+</body>
+</html>
